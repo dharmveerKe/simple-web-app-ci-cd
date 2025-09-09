@@ -1,0 +1,31 @@
+name: CI/CD for Simple Web App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+
+    - name: Run PHP syntax check
+      run: php -l hello.php
+
+    - name: Upload artifact for deployment
+      uses: actions/upload-artifact@v3
+      with:
+        name: web-files
+        path: |
+          index.html
+          hello.php
